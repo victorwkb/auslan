@@ -1,0 +1,10 @@
+__pycache__/
+
+# terraform files
+**/.terraform
+**.tfstate*
+**.tfvars
+
+/env
+*.env
+*.zip
