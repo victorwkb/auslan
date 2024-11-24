@@ -10,11 +10,10 @@ This project is a web application that uses machine learning to recognize and in
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript, TensorFlow.js (for in-browser model inference), MediaPipe (for hand tracking)
-- **Other**: WebRTC (for video input), OpenCV (for image processing)
+- **Frontend**: Next.js, TailwindCSS, JavaScript, TensorFlow.js (for in-browser model inference), MediaPipe (for hand tracking)
 
 ### Prerequisites
 
-- Node.js (if using additional frontend libraries like React)
-- Required libraries: TensorFlow.js, MediaPipe, OpenCV.js, 
+- Next.js 
+- Required libraries: TensorFlow.js, MediaPips
 
