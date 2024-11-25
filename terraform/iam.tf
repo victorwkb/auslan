@@ -37,10 +37,10 @@ data "aws_iam_policy_document" "assume_scheduler_role" {
 resource "aws_iam_role_policy" "eventbridge_role_policy" {
   name   = "eventbridge_role_policy"
   role   = aws_iam_role.eventbridge_iam_role.id
-  policy = data.aws_iam_policy_document.eventbridge_invoke_policy.json
+  policy = data.aws_iam_policy_document.invoke_lambda_policy.json
 }
 
-data "aws_iam_policy_document" "eventbridge_invoke_policy" {
+data "aws_iam_policy_document" "invoke_lambda_policy" {
   statement {
     actions   = ["lambda:InvokeFunction"]
     resources = [aws_lambda_function.ingest_data_function.arn]
@@ -51,10 +51,10 @@ data "aws_iam_policy_document" "eventbridge_invoke_policy" {
 resource "aws_iam_role_policy" "lambda_logging_role_policy" {
   name   = "${var.ingest_iam_role_name}-logging-policy"
   role   = aws_iam_role.ingest_lambda_iam_role.id
-  policy = data.aws_iam_policy_document.lambda_logging_policy.json
+  policy = data.aws_iam_policy_document.allow_logging_policy.json
 }
 
-data "aws_iam_policy_document" "lambda_logging_policy" {
+data "aws_iam_policy_document" "allow_logging_policy" {
   statement {
     actions = [
       "logs:CreateLogGroup",
@@ -64,3 +64,25 @@ data "aws_iam_policy_document" "lambda_logging_policy" {
     resources = ["arn:aws:logs:*:*:*"]
   }
 }
+
+# lambda write to s3 policy
+resource "aws_iam_role_policy" "write_to_s3_role_policy" {
+  name   = "${var.ingest_iam_role_name}-write-to-s3-policy"
+  role   = aws_iam_role.ingest_lambda_iam_role.id
+  policy = data.aws_iam_policy_document.write_to_s3_policy.json
+}
+
+data "aws_iam_policy_document" "write_to_s3_policy" {
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      aws_s3_bucket.data_lake_bucket.arn,
+      "${aws_s3_bucket.data_lake_bucket.arn}/*"
+    ]
+  }
+}
+

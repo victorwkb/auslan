@@ -13,21 +13,17 @@ def handler(event, context):
         with urllib.request.urlopen(json_url) as response:
             if response.status != 200:
                 raise Exception(f"HTTP Error: {response.status}")
-            data = json.loads(response.read().decode())
+            data = response.read()
 
         # Define s3 bucket and object key
-        bucket_name = os.getenv("S3_BUCKET_NAME")
+        bucket_name = os.getenv("S3_BUCKET")
         prefix = os.getenv("S3_PREFIX")
         object_key = f"{prefix}/auslan_dictionary.json"
-
-        # Upload data to s3
-        json_string = json.dumps(data, indent=2)
 
         s3.put_object(
             Bucket=bucket_name,
             Key=object_key,
-            Body=json_string,
-            ContentType="application/json",
+            Body=data,
         )
 
         return {
