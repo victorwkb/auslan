@@ -9,8 +9,9 @@ locals {
 # last resort, however automates image pushing
 resource "null_resource" "ecr_image" {
   triggers = {
-    python_file = md5(file("${path.module}/scripts/transformations/transform.py"))
-    docker_file = md5(file("${path.module}/scripts/transformations/Dockerfile"))
+    python_file   = md5(file("${path.module}/scripts/transformations/transform.py"))
+    python_file_2 = md5(file("${path.module}/scripts/transformations/vectorize.py"))
+    docker_file   = md5(file("${path.module}/scripts/transformations/Dockerfile"))
   }
 
   provisioner "local-exec" {
@@ -41,11 +42,47 @@ resource "aws_lambda_function" "transform_data_function" {
   memory_size   = 256
   timeout       = 90
 
+  # env variables encryption
+  kms_key_arn = aws_kms_key.lambda_env_key.arn
+
+  image_config {
+    command = ["transform.handler"]
+  }
+
   environment {
     variables = {
       S3_BUCKET      = aws_s3_bucket.data_lake_bucket.bucket
-      S3_SRC_PREFIX  = "raw"
-      S3_DEST_PREFIX = "transformed"
+      S3_SRC_PREFIX  = "bronze"
+      S3_DEST_PREFIX = "silver"
+    }
+  }
+}
+
+resource "aws_lambda_function" "vectorize_data_function" {
+  depends_on    = [null_resource.ecr_image]
+  function_name = var.vectorize_lambda_name
+  role          = aws_iam_role.transform_lambda_iam_role.arn
+  image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
+  architectures = ["arm64"]
+  package_type  = "Image"
+  memory_size   = 1024
+  timeout       = 900
+
+  # env variables encryption
+  kms_key_arn = aws_kms_key.lambda_env_key.arn
+
+  image_config {
+    command = ["vectorize.handler"]
+  }
+
+  environment {
+    variables = {
+      S3_BUCKET                 = aws_s3_bucket.data_lake_bucket.bucket
+      S3_SRC_PREFIX             = "bronze"
+      S3_DEST_PREFIX            = "silver"
+      BEDROCK_ACCESS_KEY_ID     = var.access_key_id
+      BEDROCK_SECRET_ACCESS_KEY = var.secret_access_key
+      BEDROCK_REGION            = var.region
     }
   }
 }

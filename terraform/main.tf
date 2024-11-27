@@ -35,3 +35,8 @@ resource "aws_ecr_repository" "repo" {
   }
 }
 
+# kms to encrypt the environment variables
+resource "aws_kms_key" "lambda_env_key" {
+  description         = "KMS key to encrypt environment variables"
+  enable_key_rotation = false
+}

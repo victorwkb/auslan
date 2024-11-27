@@ -98,3 +98,20 @@ resource "aws_iam_role_policy" "transform_role_policy" {
   role   = aws_iam_role.transform_lambda_iam_role.id
   policy = data.aws_iam_policy_document.write_to_s3_policy.json
 }
+
+# lambda encryption policy
+resource "aws_iam_role_policy" "lambda_kms_role_policy" {
+  name   = "lambda-kms-policy"
+  role   = aws_iam_role.transform_lambda_iam_role.id
+  policy = data.aws_iam_policy_document.lambda_kms_policy.json
+}
+
+data "aws_iam_policy_document" "lambda_kms_policy" {
+  statement {
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+    ]
+    resources = [aws_kms_key.lambda_env_key.arn]
+  }
+}

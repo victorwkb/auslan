@@ -19,7 +19,7 @@ resource "aws_lambda_function" "ingest_data_function" {
   environment {
     variables = {
       S3_BUCKET = aws_s3_bucket.data_lake_bucket.bucket
-      S3_PREFIX = "raw"
+      S3_PREFIX = "bronze"
     }
   }
 }

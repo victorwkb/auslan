@@ -9,7 +9,6 @@ s3 = boto3.client("s3")
 
 
 def handler(event, context):
-
     try:
         # Define s3 bucket and object key
         bucket_name = os.getenv("S3_BUCKET")
@@ -17,12 +16,9 @@ def handler(event, context):
         dest_prefix = os.getenv("S3_DEST_PREFIX")
 
         src_object_key = f"{src_prefix}/auslan_dictionary.json"
-        dest_object_key = f"{dest_prefix}/auslan_dictionary.csv"
+        dest_object_key = f"{dest_prefix}/transformed.csv"
 
-        response = s3.get_object(
-            Bucket=bucket_name,
-            Key=src_object_key
-        )
+        response = s3.get_object(Bucket=bucket_name, Key=src_object_key)
 
         json_data = json.loads(response["Body"].read().decode("utf-8"))
         json_data = json_data["data"]
@@ -62,7 +58,7 @@ def handler(event, context):
             "statusCode": 200,
             "body": json.dumps(
                 {
-                    "message": "Operation successful",
+                    "message": "Transformation successful",
                 }
             ),
         }

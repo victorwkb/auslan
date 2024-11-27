@@ -4,6 +4,18 @@ variable "region" {
   default     = "ap-southeast-2"
 }
 
+variable "access_key_id" {
+  description = "The AWS access key ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "secret_access_key" {
+  description = "The AWS secret access key"
+  type        = string
+  sensitive   = true
+}
+
 variable "bucket_name" {
   description = "The name of the S3 bucket for all data"
   type        = string
@@ -34,14 +46,20 @@ variable "transform_iam_role_name" {
   default     = "auslan_transform_iam_role"
 }
 
+variable "ecr_repository_name" {
+  description = "The name of the ECR repository"
+  type        = string
+  default     = "lancedb"
+}
+
 variable "transform_lambda_name" {
   description = "The name of the transform Lambda function"
   type        = string
   default     = "auslan_transform_data_function"
 }
 
-variable "ecr_repository_name" {
-  description = "The name of the ECR repository"
+variable "vectorize_lambda_name" {
+  description = "The name of the vectorize Lambda function"
   type        = string
-  default     = "lancedb"
+  default     = "auslan_vectorize_data_function"
 }
