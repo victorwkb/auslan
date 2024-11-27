@@ -28,14 +28,20 @@ variable "scheduler_iam_role_name" {
   default     = "auslan_scheduler_iam_role"
 }
 
+variable "transform_iam_role_name" {
+  description = "The name of the IAM role for the transform Lambda function"
+  type        = string
+  default     = "auslan_transform_iam_role"
+}
+
 variable "transform_lambda_name" {
   description = "The name of the transform Lambda function"
   type        = string
   default     = "auslan_transform_data_function"
 }
 
-variable "index_lambda_name" {
-  description = "The name of the index Lambda function"
+variable "ecr_repository_name" {
+  description = "The name of the ECR repository"
   type        = string
-  default     = "auslan_index_data_function"
+  default     = "lancedb"
 }

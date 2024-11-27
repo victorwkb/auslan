@@ -7,6 +7,8 @@ terraform {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 provider "aws" {
   shared_credentials_files = ["~/.aws/credentials"]
   profile                  = "auslan"
@@ -21,6 +23,15 @@ resource "aws_s3_bucket_versioning" "bucket_versioning" {
   bucket = aws_s3_bucket.data_lake_bucket.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_ecr_repository" "repo" {
+  name                 = var.ecr_repository_name
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
   }
 }
 

@@ -1,6 +1,7 @@
+# ingest json data
 data "archive_file" "ingest_zip_file" {
   type        = "zip"
-  source_dir  = "${path.module}/scripts/"
+  source_file = "${path.module}/scripts/ingest_raw_data.py"
   output_path = "${path.module}/scripts/ingest_raw_data.zip"
 }
 
