@@ -1,3 +1,4 @@
+import io
 import json
 import os
 
@@ -31,6 +32,7 @@ reranker = LinearCombinationReranker(weight=0.7)
 bucket_name = os.getenv("S3_BUCKET")
 prefix = os.getenv("S3_DEST_PREFIX")
 post_object_key = f"{prefix}/vectorized"
+parquet_object_key = "gold/dictionary.parquet"
 
 # Connect to database
 uri = f"s3://{bucket_name}/{post_object_key}"
@@ -59,13 +61,22 @@ def handler(event, context):
             .to_pandas()
         )
 
+        # Get top 5 unique results (drop duplicates)
         unique_res = pd.json_normalize(res["metadata"])
         unique_res = unique_res.drop_duplicates(subset=["word_id"]).head(5)
         unique_res = unique_res.drop(columns=["source", "row"])
 
+        # Get word_id from top 5 results
+        rs = unique_res["word_id"].astype(int).to_list()
+
+        # Load full dictionary data and retrieve by word_id
+        df = load_parquet_to_df()
+        filtered_df = df[df["word_id"].isin(rs)]
+
         return {
             "statusCode": 200,
-            "body": unique_res.to_json(),
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(filtered_df.to_dict(orient="records")),
         }
 
     except Exception as e:
@@ -73,3 +84,11 @@ def handler(event, context):
             "statusCode": 500,
             "body": json.dumps({"message": "An error occurred", "error": str(e)}),
         }
+
+
+def load_parquet_to_df() -> pd.DataFrame:
+    obj = s3.get_object(Bucket=bucket_name, Key=parquet_object_key)
+    parquet_data = io.BytesIO(obj["Body"].read())
+    df = pd.read_parquet(parquet_data)
+
+    return df

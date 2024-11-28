@@ -11,6 +11,8 @@ resource "null_resource" "ecr_image" {
   triggers = {
     python_file   = md5(file("${path.module}/scripts/transformations/transform.py"))
     python_file_2 = md5(file("${path.module}/scripts/transformations/vectorize.py"))
+    python_file_3 = md5(file("${path.module}/scripts/transformations/indexing.py"))
+    python_file_4 = md5(file("${path.module}/scripts/transformations/query.py"))
     docker_file   = md5(file("${path.module}/scripts/transformations/Dockerfile"))
   }
 
@@ -40,7 +42,7 @@ resource "aws_lambda_function" "transform_data_function" {
   image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
   architectures = ["arm64"]
   package_type  = "Image"
-  memory_size   = 256
+  memory_size   = 512
   timeout       = 90
 
   # env variables encryption
@@ -66,7 +68,7 @@ resource "aws_lambda_function" "vectorize_data_function" {
   image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
   architectures = ["arm64"]
   package_type  = "Image"
-  memory_size   = 1024
+  memory_size   = 2048
   timeout       = 900
 
   # env variables encryption
