@@ -8,3 +8,4 @@ RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 COPY transform.py ${LAMBDA_TASK_ROOT}
 COPY vectorize.py ${LAMBDA_TASK_ROOT}
 COPY indexing.py ${LAMBDA_TASK_ROOT}
+COPY query.py ${LAMBDA_TASK_ROOT}

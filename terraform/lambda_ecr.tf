@@ -112,8 +112,35 @@ resource "aws_lambda_function" "indexing_data_function" {
   environment {
     variables = {
       S3_BUCKET      = aws_s3_bucket.data_lake_bucket.bucket
-      S3_SRC_PREFIX  = "bronze"
       S3_DEST_PREFIX = "silver"
+    }
+  }
+}
+
+resource "aws_lambda_function" "query_function" {
+  depends_on    = [null_resource.ecr_image]
+  function_name = var.query_lambda_name
+  role          = aws_iam_role.transform_lambda_iam_role.arn
+  image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
+  architectures = ["arm64"]
+  package_type  = "Image"
+  memory_size   = 2048
+  timeout       = 60
+
+  # env variables encryption
+  kms_key_arn = aws_kms_key.lambda_env_key.arn
+
+  image_config {
+    command = ["query.handler"]
+  }
+
+  environment {
+    variables = {
+      S3_BUCKET                 = aws_s3_bucket.data_lake_bucket.bucket
+      S3_DEST_PREFIX            = "silver"
+      BEDROCK_ACCESS_KEY_ID     = var.access_key_id
+      BEDROCK_SECRET_ACCESS_KEY = var.secret_access_key
+      BEDROCK_REGION            = var.region
     }
   }
 }

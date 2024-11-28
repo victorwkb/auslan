@@ -69,3 +69,9 @@ variable "indexing_lambda_name" {
   type        = string
   default     = "auslan_indexing_data_function"
 }
+
+variable "query_lambda_name" {
+  description = "The name of the query Lambda function"
+  type        = string
+  default     = "auslan_query_data_function"
+}
