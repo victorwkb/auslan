@@ -1,7 +1,8 @@
-import boto3
 import json
-import urllib.request
 import os
+import urllib.request
+
+import boto3
 
 s3 = boto3.client("s3")
 

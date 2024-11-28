@@ -1,4 +1,4 @@
-# lambda role
+# ingest lambda role
 resource "aws_iam_role" "ingest_lambda_iam_role" {
   name               = var.ingest_iam_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_lambda_role.json
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "invoke_lambda_policy" {
   }
 }
 
-# lambda logging policy
+# lambda logging policy (during ingestion only)
 resource "aws_iam_role_policy" "lambda_logging_role_policy" {
   name   = "${var.ingest_iam_role_name}-logging-policy"
   role   = aws_iam_role.ingest_lambda_iam_role.id
@@ -77,6 +77,7 @@ data "aws_iam_policy_document" "write_to_s3_policy" {
     actions = [
       "s3:PutObject",
       "s3:GetObject",
+      "s3:ListObjects",
       "s3:ListBucket"
     ]
     resources = [
@@ -86,3 +87,31 @@ data "aws_iam_policy_document" "write_to_s3_policy" {
   }
 }
 
+# lambda data transformation in s3 role
+resource "aws_iam_role" "transform_lambda_iam_role" {
+  name               = var.transform_iam_role_name
+  assume_role_policy = data.aws_iam_policy_document.assume_lambda_role.json
+}
+
+resource "aws_iam_role_policy" "transform_role_policy" {
+  name   = "${var.transform_iam_role_name}-transform-policy"
+  role   = aws_iam_role.transform_lambda_iam_role.id
+  policy = data.aws_iam_policy_document.write_to_s3_policy.json
+}
+
+# lambda encryption policy
+resource "aws_iam_role_policy" "lambda_kms_role_policy" {
+  name   = "lambda-kms-policy"
+  role   = aws_iam_role.transform_lambda_iam_role.id
+  policy = data.aws_iam_policy_document.lambda_kms_policy.json
+}
+
+data "aws_iam_policy_document" "lambda_kms_policy" {
+  statement {
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+    ]
+    resources = [aws_kms_key.lambda_env_key.arn]
+  }
+}

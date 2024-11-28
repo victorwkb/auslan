@@ -1,0 +1,5 @@
+pandas
+lancedb
+langchain
+langchain_aws
+langchain_community

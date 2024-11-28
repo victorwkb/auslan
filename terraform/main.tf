@@ -7,6 +7,8 @@ terraform {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 provider "aws" {
   shared_credentials_files = ["~/.aws/credentials"]
   profile                  = "auslan"
@@ -24,3 +26,17 @@ resource "aws_s3_bucket_versioning" "bucket_versioning" {
   }
 }
 
+resource "aws_ecr_repository" "repo" {
+  name                 = var.ecr_repository_name
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+# kms to encrypt the environment variables
+resource "aws_kms_key" "lambda_env_key" {
+  description         = "KMS key to encrypt environment variables"
+  enable_key_rotation = false
+}
