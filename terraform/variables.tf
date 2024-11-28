@@ -63,3 +63,9 @@ variable "vectorize_lambda_name" {
   type        = string
   default     = "auslan_vectorize_data_function"
 }
+
+variable "indexing_lambda_name" {
+  description = "The name of the indexing Lambda function"
+  type        = string
+  default     = "auslan_indexing_data_function"
+}
