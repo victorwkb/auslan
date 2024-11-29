@@ -5,7 +5,7 @@ import * as tf from '@tensorflow/tfjs';
 
 export const useTensorFlowModel = () => {
   const [model, setModel] = useState<tf.GraphModel | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [TFerror, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -18,7 +18,7 @@ export const useTensorFlowModel = () => {
         }
       } catch (err) {
         if (mounted) {
-          setError(`Failed to load TensorFlow model: ${err.message}`);
+          setError(`Failed to access webcam: ${err instanceof Error ? err.message : 'Unknown error'}`);
         }
       }
     };
@@ -31,5 +31,5 @@ export const useTensorFlowModel = () => {
     };
   }, []);
 
-  return { model, error };
+  return { model, TFerror };
 };

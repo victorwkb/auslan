@@ -5,28 +5,23 @@ import { WebcamStream, WEBCAM_CONFIG } from '@/lib/types/webcam.types';
 
 export const useWebcam = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [webcamState, setWebcamState] = useState<WebcamStream>({
-    stream: null,
-    error: null
-  });
+  const [WCerror, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
+    let stream: MediaStream | null = null;
 
     const initializeWebcam = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia(WEBCAM_CONFIG);
+        stream = await navigator.mediaDevices.getUserMedia(WEBCAM_CONFIG);
         
-        if (mounted) {
-          setWebcamState({ stream, error: null });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            await videoRef.current.play();
-          }
+        if (mounted && videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
         }
-      } catch (error) {
+      } catch (err) {
         if (mounted) {
-          setWebcamState({ stream: null, error: `Failed to access webcam: ${error.message}` });
+          setError(`Failed to access webcam: ${err instanceof Error ? err.message : 'Unknown error'}`);
         }
       }
     };
@@ -35,9 +30,9 @@ export const useWebcam = () => {
 
     return () => {
       mounted = false;
-      webcamState.stream?.getTracks().forEach(track => track.stop());
+      stream?.getTracks().forEach(track => track.stop());
     };
   }, []);
 
-  return { videoRef, ...webcamState };
+  return { videoRef, WCerror };
 };

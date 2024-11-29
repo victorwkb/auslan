@@ -5,7 +5,8 @@ import { HandLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 
 export const useMediaPipeModel = () => {
   const [handLandmarker, setHandLandmarker] = useState<HandLandmarker | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [MPerror, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     let mounted = true;
@@ -30,7 +31,7 @@ export const useMediaPipeModel = () => {
         }
       } catch (err) {
         if (mounted) {
-          setError(`Failed to load MediaPipe model: ${err.message}`);
+          setError(`Failed to access webcam: ${err instanceof Error ? err.message : 'Unknown error'}`);
         }
       }
     };
@@ -42,5 +43,5 @@ export const useMediaPipeModel = () => {
     };
   }, []);
 
-  return { handLandmarker, error };
+  return { handLandmarker, MPerror};
 };

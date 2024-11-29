@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
-import { HandLandmark, DetectionResults, PredictionResult } from '@/lib/types/webcam.types';
+import { HandLandmark, PredictionResult } from '@/lib/types/webcam.types';
 import { ALPHABET, CONFIDENCE_THRESHOLD } from '@/lib/constants/webcam.constants';
 
 export const preprocessHandLandmarks = (handWorldLandmarks: HandLandmark[][]): tf.Tensor => {
