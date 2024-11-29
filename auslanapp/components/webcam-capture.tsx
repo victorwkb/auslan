@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect} from 'react';
 import { useWebcam } from '@/lib/hooks/useWebcam';
 import { useMediaPipeModel } from '@/lib/hooks/useMediaPipeModel';
 import { useTensorFlowModel } from '@/lib/hooks/useTensorFlowModel';
