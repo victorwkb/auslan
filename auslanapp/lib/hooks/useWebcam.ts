@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { WebcamStream, WEBCAM_CONFIG } from '@/lib/types/webcam.types';
+import { WEBCAM_CONFIG } from '@/lib/types/webcam.types';
 
 export const useWebcam = () => {
   const videoRef = useRef<HTMLVideoElement>(null);

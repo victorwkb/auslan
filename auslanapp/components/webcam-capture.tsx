@@ -10,15 +10,14 @@ import { CAPTURE_INTERVAL } from '@/lib/constants/webcam.constants';
 
 export const WebcamCapture = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [prediction, setPrediction] = useState<string>('');
-  const { videoRef, WCerror } = useWebcam();
-  const { handLandmarker, MPerror } = useMediaPipeModel();
-  const { model, TFerror } = useTensorFlowModel();
+  const { videoRef } = useWebcam();
+  const { handLandmarker } = useMediaPipeModel();
+  const { model } = useTensorFlowModel();
 
   const isLoading = !handLandmarker || !model;
 
   useEffect(() => {
-    let captureInterval: NodeJS.Timer;
+    let captureInterval: ReturnType<typeof setInterval> | null = null;
 
     const processFrame = async () => {
       if (!videoRef.current || !canvasRef.current || !handLandmarker || !model ) {
@@ -46,7 +45,6 @@ export const WebcamCapture = () => {
       if (results.worldLandmarks.length >= 1) {
         const landmarkTensor = preprocessHandLandmarks(results.worldLandmarks);
         const predictionResult = await getPrediction(model, landmarkTensor);
-        setPrediction(predictionResult.letter);
 
         // Draw visual elements
         drawLandmarks(context, results.landmarks, canvas);
@@ -57,6 +55,12 @@ export const WebcamCapture = () => {
     if (!isLoading) {
       captureInterval = setInterval(processFrame, CAPTURE_INTERVAL);
     }
+
+    return () => {
+      if (captureInterval) {
+        clearInterval(captureInterval);
+      }
+    };
   }, [isLoading, videoRef, handLandmarker]);
 
 
