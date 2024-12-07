@@ -24,17 +24,18 @@ resource "aws_lambda_function" "ingest_data_function" {
   }
 }
 
-resource "aws_scheduler_schedule" "ingest_schedule" {
-  name = "ingest_data_schedule"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  schedule_expression = "cron(0 0 ? * SUN *)"
-
-  target {
-    arn      = aws_lambda_function.ingest_data_function.arn
-    role_arn = aws_iam_role.eventbridge_iam_role.arn
-  }
-}
+# Ingest Lambda IAM role disabled as redundant
+#resource "aws_scheduler_schedule" "ingest_schedule" {
+#  name = "ingest_data_schedule"
+#
+#  flexible_time_window {
+#    mode = "OFF"
+#  }
+#
+#  schedule_expression = "cron(0 0 ? * SUN *)"
+#
+#  target {
+#    arn      = aws_lambda_function.ingest_data_function.arn
+#    role_arn = aws_iam_role.eventbridge_iam_role.arn
+#  }
+#}

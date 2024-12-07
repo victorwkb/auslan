@@ -16,10 +16,11 @@ variable "secret_access_key" {
   sensitive   = true
 }
 
+#  Edit bucket name because globally unique
 variable "bucket_name" {
   description = "The name of the S3 bucket for all data"
   type        = string
-  default     = "auslan-data-lake-bucket"
+  default     = "auslan-data-lake-bucket-2"
 }
 
 variable "ingest_lambda_name" {
