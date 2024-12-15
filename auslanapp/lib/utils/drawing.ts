@@ -54,18 +54,24 @@ export const drawPrediction = (
   context: CanvasRenderingContext2D,
   prediction: string
 ) => {
-  context.fillStyle = 'black';
+  context.fillStyle = 'white';
   context.font = '20px Arial';
-  context.globalAlpha = 0.7;
-  context.fillText(`Predicted letter: ${prediction}`, 40, 70);
+  context.globalAlpha = 1;
+  context.fillText(`Predicted letter: ${prediction}`, 20, 40);
 };
 
 export const drawQuizScore = (
   context: CanvasRenderingContext2D,
-  quizScore: number
+  quizScore: number,
+  canvas: HTMLCanvasElement
 ) => {
   context.fillStyle = 'black';
-  context.font = '30px Arial';
-  context.globalAlpha = 0.7;
-  context.fillText(`Score: ${quizScore}`, 40, 40);
+  context.globalAlpha = 0.65;
+  
+  context.fillRect(0,0,canvas.width, canvas.height);
+
+  context.globalAlpha = 1;
+  context.fillStyle = 'white';
+  context.font = '20px Arial';
+  context.fillText(`${quizScore} points`,canvas.width/2.2, 40);
 };

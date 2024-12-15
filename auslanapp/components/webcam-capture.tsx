@@ -10,7 +10,7 @@ import { CAPTURE_INTERVAL } from '@/lib/constants/webcam.constants';
 import { QuizInterface } from './QuizInterface';
 
 const QUIZ_CONFIG = {
-  TOTAL_FRAMES: 25,  // Detection at 20fps
+  TOTAL_FRAMES: 20,  // Detection at 20fps
   SUCCESS_THRESHOLD: 0.7,  // 80% of frames must match the target letter
 };
 
@@ -54,6 +54,7 @@ export const WebcamCapture = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      
   
       // Process frame
       const imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
@@ -62,7 +63,7 @@ export const WebcamCapture = () => {
       // Clear canvas and redraw video frame
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(video, 0, 0);
-      drawQuizScore(context, quizScore);
+      drawQuizScore(context, quizScore,canvas);
   
       if (results.worldLandmarks.length >= 1) {
         const landmarkTensor = preprocessHandLandmarks(results.worldLandmarks);
@@ -74,15 +75,17 @@ export const WebcamCapture = () => {
 
         // Only process quiz logic if in progress
         if (quizStatus === 'in-progress' && quizLetter) {
-          setCurrentFrameCount(prevCount => {
-            // Check if predicted letter matches quiz letter
-            if (predictionResult.letter === quizLetter) {
-              setCorrectFrameCount(correctFrameCount + 1);
-            }
+          // Check if predicted letter matches quiz letter
+          if (predictionResult.letter === quizLetter) {
+            setCorrectFrameCount(correctFrameCount + 1);
+          }
+
+          setCurrentFrameCount(currentFrameCount => {
+            
+
   
             // Check quiz completion
-            if (prevCount >= QUIZ_CONFIG.TOTAL_FRAMES) {
-              
+            if (currentFrameCount >= QUIZ_CONFIG.TOTAL_FRAMES) {
               if (correctFrameCount >= QUIZ_CONFIG.TOTAL_FRAMES * QUIZ_CONFIG.SUCCESS_THRESHOLD) {
                 setQuizStatus('success');
                 setquizScore(quizScore + 1);  
@@ -91,7 +94,7 @@ export const WebcamCapture = () => {
               }
             }
   
-            return prevCount + 1;
+            return currentFrameCount + 1;
           });
         }
       }
@@ -123,10 +126,14 @@ export const WebcamCapture = () => {
       <QuizInterface 
         quizStatus={quizStatus}
         quizLetter={quizLetter}
+        currentFrameCount = {currentFrameCount}
         correctCount={correctFrameCount}
         totalFrames={QUIZ_CONFIG.TOTAL_FRAMES}
         onStartQuiz={startNewQuiz}
       />
+      <div className=" absolute bottom-0 w-1/2 text-center p-4 bg-indigo text-gray justify-center"> 
+        Your text aligned to the bottom of the screen 
+      </div>
     <div className="w-1/2 relative h-full flex items-center justify-center">
       <video 
         ref={videoRef} 
