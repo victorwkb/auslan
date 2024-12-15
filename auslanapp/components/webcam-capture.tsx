@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useRef, useEffect, useState} from 'react';
 import { useWebcam } from '@/lib/hooks/useWebcam';
@@ -47,7 +47,7 @@ export const WebcamCapture = () => {
   
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       if (!context) return;
   
       // Setup canvas
@@ -57,7 +57,12 @@ export const WebcamCapture = () => {
       
   
       // Process frame
-      const imageData = context.getImageData(0, 0, video.videoWidth, video.videoHeight);
+      const imageData = context.getImageData(
+        0,
+        0,
+        video.videoWidth,
+        video.videoHeight,
+      );
       const results = await handLandmarker.detect(imageData);
   
       // Clear canvas and redraw video frame
@@ -120,7 +125,6 @@ export const WebcamCapture = () => {
     correctFrameCount
   ]);
 
-
   return (
     <div className="flex h-screen">
       <QuizInterface 
@@ -145,6 +149,7 @@ export const WebcamCapture = () => {
         ref={canvasRef} 
         className="absolute top-0 left-0 w-full h-full rounded-lg pointer-events-none"
       />
+      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full" />
     </div>
     </div>
   );
