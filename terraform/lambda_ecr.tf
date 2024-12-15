@@ -18,7 +18,6 @@ resource "null_resource" "ecr_image" {
 
   provisioner "local-exec" {
     command = <<EOF
-      aws ecr-public get-login-password | docker login --password-stdin --username AWS public.ecr.aws
       aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${var.region}.amazonaws.com
       cd ${path.module}/scripts/transformations
       docker build --platform linux/arm64 -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
