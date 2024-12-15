@@ -123,7 +123,6 @@ export const WebcamCapture = () => {
       <QuizInterface 
         quizStatus={quizStatus}
         quizLetter={quizLetter}
-        currentFrameCount={currentFrameCount}
         correctCount={correctFrameCount}
         totalFrames={QUIZ_CONFIG.TOTAL_FRAMES}
         onStartQuiz={startNewQuiz}
