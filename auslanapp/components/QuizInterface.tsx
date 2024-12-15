@@ -6,7 +6,6 @@ interface QuizInterfaceProps {
   quizStatus: 'idle' | 'in-progress' | 'success' | 'failure';
   quizLetter: string | null;
   correctCount: number;
-  currentFrameCount: number;
   totalFrames: number;
   onStartQuiz: () => void;
 }
@@ -15,7 +14,6 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({
   quizStatus,
   quizLetter,
   totalFrames,
-  currentFrameCount,
   correctCount,
   onStartQuiz
 }) => {
