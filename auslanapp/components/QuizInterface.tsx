@@ -59,7 +59,7 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({
       )}
       {quizStatus === 'failure' && (
         <div className="text-2xl text-red-600 text-center">
-          <p>Oops! You didn't hold the letter {quizLetter} long enough.</p>
+          <p>Incorrect! </p>
           <button 
             onClick={onStartQuiz}
             className="bg-red-400 text-white px-4 py-2 text-xl rounded mt-2"
