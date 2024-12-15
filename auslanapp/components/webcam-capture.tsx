@@ -126,13 +126,12 @@ export const WebcamCapture = () => {
       <QuizInterface 
         quizStatus={quizStatus}
         quizLetter={quizLetter}
-        currentFrameCount = {currentFrameCount}
         correctCount={correctFrameCount}
         totalFrames={QUIZ_CONFIG.TOTAL_FRAMES}
         onStartQuiz={startNewQuiz}
       />
       <div className=" absolute bottom-0 w-1/2 text-center p-4 bg-indigo text-gray justify-center"> 
-        Your text aligned to the bottom of the screen 
+        Placeholder
       </div>
     <div className="w-1/2 relative h-full flex items-center justify-center">
       <video 
