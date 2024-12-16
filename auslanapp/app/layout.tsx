@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { Quicksand } from "next/font/google";
 import clsx from "clsx";
@@ -21,9 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={clsx(quicksand.className, "width-full antialiased")}
-      >
+      <body className={clsx(quicksand.className, "width-full antialiased")}>
         {children}
       </body>
     </html>
