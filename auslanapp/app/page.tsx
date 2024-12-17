@@ -5,7 +5,7 @@ import HeroCards from "@/components/HeroCards";
 export default function HomePage() {
   return (
     <div className="md:h-screen flex flex-col bg-gradient-to-b from-primary from-10% via-secondary via-30% to-tertiary to-90% items-center">
-      <main className="container md:h-screen flex flex-col justify-center mx-auto px-4 pb-16 pt-8">
+      <div className="container md:h-screen flex flex-col justify-center mx-auto px-4 pb-16 pt-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1
@@ -37,7 +37,7 @@ export default function HomePage() {
           {/* Hero Cards */}
         </div>
         <HeroCards />
-      </main>
+      </div>
       <footer
         className="animate-in relative bottom-8 text-center text-sm text-primary max-w-xs px-4"
         style={{ "--index": 6 } as React.CSSProperties}

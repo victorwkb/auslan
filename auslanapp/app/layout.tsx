@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Quicksand } from "next/font/google";
 import clsx from "clsx";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -20,8 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(quicksand.className, "width-full antialiased")}>
-        {children}
+      <body className={clsx(quicksand.className, "w-full antialiased flex h-screen")}>
+        <SidebarProvider defaultOpen={false}>
+          <div className="grid grid-cols-[auto,1fr] w-full">
+            <AppSidebar />
+            <main className="flex flex-col h-screen">
+              {children}
+            </main>
+          </div>
+        </SidebarProvider>
       </body>
     </html>
   );

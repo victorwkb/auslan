@@ -20,7 +20,7 @@ export default function HeroCards() {
           style={{ "--index": 4 } as React.CSSProperties}
         >
           <CardHeader>
-            <BookOpen className="h-12 w-12 text-orb mb-4" />
+            <HandMetal className="h-12 w-12 text-orb mb-4" />
             <CardTitle className="w-full flex items-center justify-between font-bold text-xl">
               Auslan Fingerspelling
               <Badge className="text-sm text-primary">ML/AI</Badge>
@@ -46,7 +46,7 @@ export default function HeroCards() {
           style={{ "--index": 5 } as React.CSSProperties}
         >
           <CardHeader>
-            <HandMetal className="h-12 w-12 text-orb mb-4" />
+            <BookOpen className="h-12 w-12 text-orb mb-4" />
             <CardTitle className="w-full flex items-center justify-between font-bold text-xl">
               Auslan Dictionary
               <Badge className="text-sm text-primary">LLM</Badge>

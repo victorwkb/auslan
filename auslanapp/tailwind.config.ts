@@ -27,6 +27,7 @@ const config: Config = {
         secondary: "#E3F0FF",
         tertiary: "#E8C2FF",
         border: {
+          border: "hsl(var(--border))",
           primary: "hsl(var(--border))",
           secondarytwo: "#768383",
         },
@@ -47,6 +48,16 @@ const config: Config = {
           mutliselecttwo: "#D8CEFF",
         },
         card: "ECF0FF",
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -55,12 +66,24 @@ const config: Config = {
       },
       keyframes: {
         in: {
-          "0%": { transform: "translateY(18px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
+          "0%": {
+            transform: "translateY(18px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
         },
         "in-reverse": {
-          "0%": { transform: "translateY(-18px)", opacity: "0" },
-          "100%": { transform: "translateY(0px)", opacity: "1" },
+          "0%": {
+            transform: "translateY(-18px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0px)",
+            opacity: "1",
+          },
         },
       },
       animation: {
