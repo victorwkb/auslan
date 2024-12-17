@@ -94,10 +94,10 @@
 }
 
 .animate-in {
-  animation-delay: calc(var(--index) * 130ms);
+  animation-delay: calc(var(--index) * 150ms);
 }
 .animate-in-reverse {
-  animation-delay: calc(var(--index) * 130ms);
+  animation-delay: calc(var(--index) * 150ms);
 }
 
 @layer utilities {

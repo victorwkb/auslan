@@ -10,6 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       textColor: {
+        orb: "#4E38B2",
         primary: "#352A7C",
         primarytwo: "#FFFFFF",
         secondary: "#6F87A4",
@@ -19,12 +20,16 @@ const config: Config = {
         primary: "#FCFCFC",
         secondary: "#E3F0FF",
         tertiary: "#E8C2FF",
+        card: "ECF0FF",
       },
       colors: {
         primary: "#FCFCFC",
         secondary: "#E3F0FF",
         tertiary: "#E8C2FF",
-        border: "hsl(var(--border))",
+        border: {
+          primary: "hsl(var(--border))",
+          secondarytwo: "#768383",
+        },
         buttons: {
           primary: "#917AE5",
           secondary: "#CBCDFB",
@@ -41,6 +46,7 @@ const config: Config = {
           mutliselect: "#F3F0FF",
           mutliselecttwo: "#D8CEFF",
         },
+        card: "ECF0FF",
       },
       borderRadius: {
         lg: "var(--radius)",
