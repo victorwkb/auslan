@@ -1,7 +1,7 @@
 
 # Australian Sign Language Recognition Web App  
 
-This repository contains a web application designed to recognize and interpret Australian Sign Language (Auslan) fingerspelling. It uses ML/AI and a lightweight approach to computer vision enable seamless, browser-based recognition without the need for a server or backend GPU.  
+This repository contains a web application designed to recognize and interpret Australian Sign Language (Auslan) fingerspelling. Utilising ML/AI and a lightweight approach to computer vision enable seamless, browser-based recognition without the need for a server or backend GPU.  
 
 ---
 
