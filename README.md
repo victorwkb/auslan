@@ -1,13 +1,19 @@
 
 # Australian Sign Language Recognition Web App  
 
-This repository contains a web application designed to recognize and interpret Australian Sign Language (Auslan) fingerspelling. Utilising ML/AI and a lightweight approach to computer vision enable seamless, browser-based recognition without the need for a server or backend GPU.  
+![landing](https://github.com/victorwkb/auslan/blob/main/pictures/landing.png)
+
+
+This repository contains a web application designed to recognize and interpret Australian Sign Language (Auslan) fingerspelling alongside a comprehensive Auslan dictionary powered by vector based search. Utilising ML/AI and a lightweight approach to computer vision enable seamless, browser-based recognition without the need for a server or backend GPU. The application aims to make Auslan learning and recognition more accessible to everyone, supporting both beginners and experienced users in their journey to learn and use Auslan.  
 
 ---
 
 ## Features  
 
 ### 1. **Real Time Auslan Fingerspelling Recognition**  
+
+![fingerspelling](https://github.com/victorwkb/auslan/blob/main/pictures/fingerspelling.png)
+
 - Recognizes individual letters of Auslan fingerspelling in real time. 
 - **Technologies Used**:  
   - **Google's Mediapipe**: For accurate hand landmark detection.  
