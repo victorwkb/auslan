@@ -1,3 +1,4 @@
+import ast
 import io
 import json
 import os
@@ -72,6 +73,7 @@ def handler(event, context):
         # Load full dictionary data and retrieve by word_id
         df = load_parquet_to_df()
         filtered_df = df[df["word_id"].isin(rs)]
+        filtered_df = parse_json_fields(filtered_df)
 
         return {
             "statusCode": 200,
@@ -91,4 +93,19 @@ def load_parquet_to_df() -> pd.DataFrame:
     parquet_data = io.BytesIO(obj["Body"].read())
     df = pd.read_parquet(parquet_data)
 
+    return df
+
+
+def parse_json_fields(df):
+    def parse_field(field):
+        # Convert stringified Python structures to proper Python objects
+        if isinstance(field, str):
+            try:
+                return ast.literal_eval(field)
+            except Exception:
+                return field
+        return field
+
+    df["sub_entries"] = df["sub_entries"].apply(parse_field)
+    df["categories"] = df["categories"].apply(parse_field)
     return df

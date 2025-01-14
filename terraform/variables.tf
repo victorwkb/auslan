@@ -20,7 +20,7 @@ variable "secret_access_key" {
 variable "bucket_name" {
   description = "The name of the S3 bucket for all data"
   type        = string
-  default     = "auslan-data-lake-bucket-2"
+  default     = "auslan-data-lake-bucket"
 }
 
 variable "ingest_lambda_name" {
