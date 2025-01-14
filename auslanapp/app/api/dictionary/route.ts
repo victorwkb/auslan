@@ -20,10 +20,16 @@ export async function GET(req: Request) {
   }
 
   try {
+    const lambdaEndpoint = process.env.AWS_LAMBDA_ENDPOINT;
+    
+    if (!lambdaEndpoint) {
+        throw new Error("AWS_LAMBDA_ENDPOINT environment variable is not set");
+    }
+
     // Simulating Lambda response
     const lambdaResponse = await lambda
       .invoke({
-        FunctionName: process.env.AWS_LAMBDA_ENDPOINT,
+        FunctionName: lambdaEndpoint,  // Safely use lambdaEndpoint
         Payload: JSON.stringify({ body: query }),
       })
       .promise();
@@ -33,8 +39,6 @@ export async function GET(req: Request) {
 
     // Assuming the Lambda returns a body with stringified JSON, parse it too
     const responseBody = JSON.parse(parsedResponse.body);
-
-    console.log(responseBody); // Debug log for checking the parsed payload JSON
 
     return NextResponse.json(responseBody); // Forward the parsed response to the frontend
   } catch (error) {

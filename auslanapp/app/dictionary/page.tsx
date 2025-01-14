@@ -1,7 +1,7 @@
 "use client";
 
 import SearchBar from "@/components/SearchBar";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { DictionaryResults, DictionaryItem } from "./SearchResults";
 
 export default function Dictionary() {

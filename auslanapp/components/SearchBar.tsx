@@ -14,9 +14,10 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     onSearch(query);
   };
 
-  const handleIconClick = () => {
-    // Trigger the form submission when the icon is clicked
-    handleSubmit(new Event("submit") as React.FormEvent);
+  const handleIconClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); 
+    const formEvent = new Event("submit") as unknown as React.FormEvent;
+    handleSubmit(formEvent);
   };
 
   return (
