@@ -1,13 +1,5 @@
 import { NextResponse } from "next/server";
 
-import AWS from "aws-sdk";
-
-const lambda = new AWS.Lambda({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
-
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
@@ -20,25 +12,27 @@ export async function GET(req: Request) {
   }
 
   try {
-    const lambdaEndpoint = process.env.AWS_LAMBDA_ENDPOINT;
-    
+    const lambdaEndpoint = process.env.AWS_LAMBDA_FUNCTION_URL;
+
     if (!lambdaEndpoint) {
-        throw new Error("AWS_LAMBDA_ENDPOINT environment variable is not set");
+      throw new Error("AWS_LAMBDA_ENDPOINT environment variable is not set");
     }
 
-    // Simulating Lambda response
-    const lambdaResponse = await lambda
-      .invoke({
-        FunctionName: lambdaEndpoint,  // Safely use lambdaEndpoint
-        Payload: JSON.stringify({ body: query }),
-      })
-      .promise();
+    const response = await fetch(lambdaEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ body: query }),
+    });
 
-    // Parse the response from the Lambda function
-    const parsedResponse = JSON.parse(lambdaResponse.Payload as string);
+    if (!response.ok) {
+      throw new Error(
+        `Lambda invocation failed with status: ${response.status}`,
+      );
+    }
 
-    // Assuming the Lambda returns a body with stringified JSON, parse it too
-    const responseBody = JSON.parse(parsedResponse.body);
+    const responseBody = await response.json();
 
     return NextResponse.json(responseBody); // Forward the parsed response to the frontend
   } catch (error) {

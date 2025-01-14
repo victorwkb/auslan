@@ -45,7 +45,7 @@ export default function Dictionary() {
         <div className="text-center mb-8">
           <h1
             className="mx-auto animate-in-reverse text-5xl md:text-6xl lg:text-7xl font-bold py-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600"
-            style={{ "--index": 3 } as React.CSSProperties}
+            style={{ "--index": 1 } as React.CSSProperties}
           >
             Auslan
             <br />
@@ -63,7 +63,7 @@ export default function Dictionary() {
 
         {/* Footer */}
         <p
-          className="text-xl md:text-3xl text-gray-600 px-16 py-12 mx-auto animate-in-reverse text-center"
+          className="text-xl md:text-3xl text-gray-600 px-16 py-12 mx-auto animate-in text-center"
           style={{ "--index": 2 } as React.CSSProperties}
         >
           Powered by Amazon Titan Large Language Model <br />
