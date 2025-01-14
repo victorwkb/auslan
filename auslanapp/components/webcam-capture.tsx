@@ -89,7 +89,7 @@ export const WebcamCapture = () => {
 
         // Draw visual elements
         drawLandmarks(context, results.landmarks, canvas);
-        drawPrediction(context, predictionResult.letter);
+        drawPrediction(context, predictionResult.letter, canvas);
 
         // Only process quiz logic if in progress
         if (quizStatus === "in-progress" && quizLetter) {

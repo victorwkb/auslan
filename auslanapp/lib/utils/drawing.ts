@@ -62,11 +62,12 @@ export const drawLandmarks = (
 export const drawPrediction = (
   context: CanvasRenderingContext2D,
   prediction: string,
+  canvas: HTMLCanvasElement,
 ) => {
   context.fillStyle = "white";
   context.font = "20px Arial";
-  context.globalAlpha = 1;
-  context.fillText(`Predicted letter: ${prediction}`, 20, 40);
+  context.globalAlpha = 0.7;
+  context.fillText(`Predicted letter: ${prediction}`, canvas.width /3.5, canvas.height/8);
 };
 
 export const drawQuizScore = (
@@ -75,12 +76,12 @@ export const drawQuizScore = (
   canvas: HTMLCanvasElement,
 ) => {
   context.fillStyle = "black";
-  context.globalAlpha = 0.65;
+  context.globalAlpha = 0.7;
 
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  context.globalAlpha = 1;
+  context.globalAlpha = 0.7;
   context.fillStyle = "white";
   context.font = "20px Arial";
-  context.fillText(`${quizScore} points`, canvas.width / 2.2, 40);
+  context.fillText(`${quizScore} points`, canvas.width /1.75, canvas.height/8);
 };
