@@ -5,7 +5,6 @@ import os
 
 import boto3
 import lancedb
-from lancedb.rerankers import LinearCombinationReranker
 from langchain_aws import BedrockEmbeddings
 import pandas as pd
 
@@ -26,8 +25,6 @@ embeddings = BedrockEmbeddings(
     client=bedrock_client,
     model_id="amazon.titan-embed-text-v2:0",
 )
-
-reranker = LinearCombinationReranker(weight=0.7)
 
 # Define s3 bucket and object key
 bucket_name = os.getenv("S3_BUCKET")
@@ -54,8 +51,7 @@ def handler(event, context):
     try:
         query_vec = embeddings.embed_query(query)
         res = (
-            tb.search(query_type="hybrid")
-            .rerank(reranker)
+            tb.search(query_type="vector")
             .vector(query_vec)
             .text(query)
             .limit(20)
